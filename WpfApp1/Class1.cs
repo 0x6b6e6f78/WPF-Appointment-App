@@ -12,8 +12,14 @@ namespace WpfApp1
         public DateTime Datum { get; set; }
         public string Titel { get; set; }
         public string Beschreibung { get; set; }
-        public TimeSpan Beginn { get; set; }
-        public TimeSpan Ende { get; set; }
+
+        public string BeschreibungShort
+        {
+            get
+            {
+                return Beschreibung.Replace("\r\n", " ");
+            }
+        }
     }
 
     public class RelayCommand : ICommand

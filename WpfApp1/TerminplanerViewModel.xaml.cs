@@ -18,15 +18,24 @@ namespace WpfApp1
         public ICommand NeuerTerminCommand { get; }
         public ICommand TerminLöschenCommand { get; }
 
+        private string _title;
+
+        private string _descripton;
+
+        private DateTime _selectedDate;
+
+        private Termin _ausgewählterTermin;
+
         public TerminplanerViewModel()
         {
-            NeuerTerminCommand = new RelayCommand(() => TerminHinzufügen(new Termin { Titel = "Neuer Termin", Datum = DateTime.Now }));
-            TerminLöschenCommand = new RelayCommand(() => TerminLöschen(AusgewählterTermin), () => AusgewählterTermin != null);
+            SelectedDate = DateTime.Today;
+
+            NeuerTerminCommand = new RelayCommand(() => TerminHinzufügen(new Termin { Titel = $"{_title}", Datum = SelectedDate, Beschreibung = Description }));
+            TerminLöschenCommand = new RelayCommand(() => TerminLöschen(AusgewählterTermin), () => true);
         }
 
         public ObservableCollection<Termin> Termine { get; set; } = new ObservableCollection<Termin>();
 
-        private Termin _ausgewählterTermin;
         public Termin AusgewählterTermin
         {
             get { return _ausgewählterTermin; }
@@ -37,13 +46,58 @@ namespace WpfApp1
             }
         }
 
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+            }
+        }
+
+        public string Description
+        {
+            get => _descripton;
+            set
+            {
+                _descripton = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+            }
+        }
+
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+                OnPropertyChanged(nameof(SelectedDate));
+            }
+        }
+
         public void TerminHinzufügen(Termin termin)
         {
+            if (Title == null || Title.Length == 0)
+            {
+                MessageBox.Show("Bitte gib einen Titel an!");
+                return;
+            }
+            if (Description == null || Description.Length == 0)
+            {
+                MessageBox.Show("Bitte gib einen Beschreibung an!");
+                return;
+            }
             Termine.Add(termin);
         }
 
         public void TerminLöschen(Termin termin)
         {
+            if (termin == null)
+            {
+                MessageBox.Show("Bitte wähle einen Termin aus!");
+                return;
+            }
             Termine.Remove(termin);
         }
 
