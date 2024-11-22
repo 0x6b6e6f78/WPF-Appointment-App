@@ -9,29 +9,19 @@
     <Grid Margin="0,0,0,2">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <!-- Diese Zeile nimmt den verfügbaren Platz ein -->
             <RowDefinition Height="Auto" />
-            <!-- Eine Zeile für andere Inhalte (z.B. Buttons) -->
         </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding Termine}"  Grid.Row="0" 
-          SelectedItem="{Binding AusgewählterTermin}" 
-          AutoGenerateColumns="False" 
-          IsReadOnly="True" 
-          Margin="0,100,400,35" SelectionChanged="DataGrid_SelectionChanged">
-            <!-- Spalten definieren -->
+		<!-- Termintabelle -->
+		<DataGrid ItemsSource="{Binding Termine}" Grid.Row="0" SelectedItem="{Binding AusgewählterTermin}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,100,400,35" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <!-- Spalte für den Titel -->
-                <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
-
-                <!-- Spalte für das Datum -->
-                <DataGridTextColumn Header="Datum" Binding="{Binding Datum, StringFormat=dd.MM.yyyy}" />
-
-                <!-- Spalte für Beschreibung -->
-                <DataGridTextColumn Header="Beschreibung" Binding="{Binding BeschreibungShort}" />
+                <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Datum" Binding="{Binding Datum, StringFormat=dd.MM.yyyy}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Beschreibung" Binding="{Binding BeschreibungShort}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
 
+		<!-- Detailansicht -->
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Width="364" Margin="0,100,20,35">
             <TextBlock Text="Details" FontWeight="Bold" Margin="0,0,0,10"/>
             <TextBlock Text="Titel:"/>
@@ -39,30 +29,20 @@
             <TextBlock Text="Datum:"/>
             <TextBox Text="{Binding AusgewählterTermin.Datum, StringFormat=dd.MM.yyyy}" IsReadOnly="True" Margin="0,5"/>
             <TextBlock Text="Beschreibung:"/>
-            <TextBox Text="{Binding AusgewählterTermin.Beschreibung}" IsReadOnly="True" Margin="0,5" Height="67" TextWrapping="Wrap" 
-AcceptsReturn="True"/>
+            <TextBox Text="{Binding AusgewählterTermin.Beschreibung}" IsReadOnly="True" Margin="0,5" Height="67" TextWrapping="Wrap" AcceptsReturn="True"/>
         </StackPanel>
-
-        <!--<ListBox ItemsSource="{Binding Termine}" SelectedItem="{Binding AusgewählterTermin}" DisplayMemberPath="Titel" Margin="0,159,400,43"/>-->
-
-        <Button Content="Termin erstellen" Command="{Binding NeuerTerminCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="598,67,0,0"/>
         <Button Content="Termin löschen" Command="{Binding TerminLöschenCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="680,377,0,0"/>
 
+		<!-- Input -->
+        <TextBlock Text="Titel:" Foreground="Gray" FontStyle="Italic" Margin="10,10,765,410"/>
         <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,24,0,0" Width="210" Height="27"/>
-        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="257,24,0,0" Width="304" Height="63" 
-         TextWrapping="Wrap" 
-         AcceptsReturn="True" />
+        
+		<DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="210" Height="27"/>
+        
+		<TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="257,24,0,0" Width="304" Height="63" TextWrapping="Wrap" AcceptsReturn="True" />
+        <TextBlock Text="Beschreibung:" Foreground="Gray" FontStyle="Italic" Margin="257,10,470,410" RenderTransformOrigin="0.495,-0.388"/>
+		
+		<Button Content="Termin erstellen" Command="{Binding NeuerTerminCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="598,67,0,0"/>
 
-        <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" 
-                    HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="210" Height="27"/>
-
-        <TextBlock Text="Titel:" 
-               Foreground="Gray" 
-               FontStyle="Italic" 
-               Margin="10,10,765,410"/>
-        <TextBlock Text="Beschreibung:" 
-               Foreground="Gray" 
-               FontStyle="Italic" 
-               Margin="257,10,470,410" RenderTransformOrigin="0.495,-0.388"/>
     </Grid>
 </Window>
